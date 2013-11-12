@@ -18,9 +18,9 @@ $(document).ready(function()
 {
 			    $("#busStop").keyup(function()
 				{
-					var value = $(this).val();
-	  			      var c = "http://www.cumtd.com/autocomplete/stops/v1.0/json/search?query=" + value
-					  console.log(c)
+					var value = $("#busStop").val();
+					console.log(value)
+						var c = "http://www.cumtd.com/autocomplete/stops/v1.0/json/search?query=" + value
 	  			                 $.ajax({
 	  			                     url: c,
 	  			                     dataType: "json",
@@ -29,6 +29,9 @@ $(document).ready(function()
 	  			                     success: function(data) {
 	  			      				   console.log(data)
 	  			                     }
-	  			                 })
+								 });
+					
+	  			      
+					
 			     });
 			 });
