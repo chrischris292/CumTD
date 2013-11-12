@@ -1,6 +1,6 @@
 
 //dead
-
+/*
 			  $("#busStop").keyup(function () {
 			      var value = $(this).val();
 			      var c = "http://www.cumtd.com/autocomplete/stops/v1.0/json/search?query=f" + value
@@ -12,4 +12,23 @@
 			                     }
 			                 })
 			    }).keyup();
-			  
+			  */
+var data = 0;
+$(document).ready(function()
+{
+			    $("#busStop").keyup(function()
+				{
+					var value = $(this).val();
+	  			      var c = "http://www.cumtd.com/autocomplete/stops/v1.0/json/search?query=" + value
+					  console.log(c)
+	  			                 $.ajax({
+	  			                     url: c,
+	  			                     dataType: "json",
+									 data: data,
+									 async: true,
+	  			                     success: function(data) {
+	  			      				   console.log(data)
+	  			                     }
+	  			                 })
+			     });
+			 });
