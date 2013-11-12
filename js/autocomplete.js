@@ -1,18 +1,8 @@
 
 //dead
 /*
-			  $("#busStop").keyup(function () {
-			      var value = $(this).val();
-			      var c = "http://www.cumtd.com/autocomplete/stops/v1.0/json/search?query=f" + value
-			                 $.ajax({
-			                     url: c,
-			                     dataType: "jsonp",
-			                     success: function(f) {
-			      				   console.log(f)
-			                     }
-			                 })
-			    }).keyup();
-			  */
+			  
+
 var data = 0;
 $(document).ready(function()
 {
@@ -35,3 +25,12 @@ $(document).ready(function()
 					
 			     });
 			 });
+*/
+    
+$('input.twitter-search').typeahead([
+  {
+    name: 'accounts',
+    prefetch: 'https://twitter.com/network.json',
+    remote: "http://www.cumtd.com/autocomplete/stops/v1.0/json/search?query="
+  },
+  ]);
