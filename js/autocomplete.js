@@ -7,11 +7,11 @@ var data = 0;
 var temp = [];
 $(document).ready(function()
 {
+	
 	var typeAheadSource  = $('#busStop').typeahead({                                   
-  						name: 'arabic',                                                             
+  						name: 'arabic',
   						remote: temp                                                                     
 			     });
-	console.log(typeAheadSource)
 			    $("#busStop").keyup(function()
 				{
 					var value = $("#busStop").val();
@@ -31,5 +31,6 @@ $(document).ready(function()
 	  			                     	}
 	  			                	 });
 				 });
+	
 			    
  });
