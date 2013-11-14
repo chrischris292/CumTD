@@ -4,9 +4,15 @@
 			  
 
 var data = 0;
+var temp = [];
 $(document).ready(function()
 {
-			  /*  $("#busStop").keyup(function()
+	var typeAheadSource  = $('#busStop').typeahead({                                   
+  						name: 'arabic',                                                             
+  						remote: temp                                                                     
+			     });
+	console.log(typeAheadSource)
+			    $("#busStop").keyup(function()
 				{
 					var value = $("#busStop").val();
 					console.log(value)
@@ -17,18 +23,13 @@ $(document).ready(function()
 									 data: data,
 									 async: true,
 	  			                     success: function(data) {
-	  			      				   console.log(data)
-	  			                     }
-								 });
-					
-	  			      
-					
-			     });
-*/
-$('#busStop').typeahead({                                   
-  name: 'arabic',                                                             
-  local: [                                                                    
-    "penis","bigdicks"                                                           
-  ]                                                                           
-});
-			 });
+	  			                     	console.log(data.length)
+	  			                     	for(i=0;i<data.length;i++)
+	  			                     		{
+	  			                     		temp[i] = data[i].n;
+	  			                 	 		}
+	  			                     	}
+	  			                	 });
+				 });
+			    
+ });
