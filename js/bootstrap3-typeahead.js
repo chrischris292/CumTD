@@ -874,7 +874,6 @@
             query: {
                 position: "relative",
                 verticalAlign: "top",
-                backgroundColor: "transparent"
             },
             dropdown: {
                 position: "absolute",

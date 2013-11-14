@@ -6,7 +6,7 @@
 var data = 0;
 $(document).ready(function()
 {
-			    $("#busStop").keyup(function()
+			  /*  $("#busStop").keyup(function()
 				{
 					var value = $("#busStop").val();
 					console.log(value)
@@ -24,4 +24,11 @@ $(document).ready(function()
 	  			      
 					
 			     });
+*/
+$('#busStop').typeahead({                                   
+  name: 'arabic',                                                             
+  local: [                                                                    
+    "penis","bigdicks"                                                           
+  ]                                                                           
+});
 			 });
