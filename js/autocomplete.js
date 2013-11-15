@@ -88,31 +88,4 @@ var temp = [];
 	        }
 		  });
 	}
-	function autoCompleteStops()
-	{
-		$("#busStop").keyup(function()
-		{
-			var value = $("#busStop").val();
-			var c = "http://www.cumtd.com/autocomplete/stops/v1.0/json/search?query=" + value
-		     $.ajax
-		     ({
-			     url: c,
-			     dataType: "json",
-				 data: data,
-				 async: true,
-			     success: function(data) {
-			     	console.log(data)
-			     var tempData = autoCompleteStopsHelperFunction(data);
-			     }
-			 });
-		 });
-	}
-	function autoCompleteStopsHelperFunction(data)
-	{
-		for(i=0;i<data.length;i++)
-		{
-		temp[i] = data[i].n;
-		}
-		console.log(temp);
-		return temp;
-	}
+	
