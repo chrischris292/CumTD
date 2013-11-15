@@ -6,7 +6,7 @@
     <style type="text/css">
       html { height: 100% }
       body { height: 100%; }
-      #map-canvas { margin: 0; padding: 0; width: 65%; float: right; height: 100%; }
+      #map-canvas { margin: 0; padding: 0; width: 80%; float: right; height: 100%; }
 	  #map-details {margin: 0; padding: 0; width: 35%; float: left; height: 100%;  }
     
 
@@ -84,19 +84,8 @@
 	<script src = "http://codeorigin.jquery.com/jquery-2.0.3.js"></script>
 	<script src = "js/bootstrap3-typeahead.js"></script>
 	<script src = "js/autocomplete.js"></script>
-	 <script src = "js/getStops.js"></script>
-
-    <script type="text/javascript">
-      function initialize() {
-        var mapOptions = {
-          center: new google.maps.LatLng(40.106831, -88.227425),
-          zoom: 13,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        var map = new google.maps.Map(document.getElementById("map-canvas"),
-            mapOptions);
-      }
-      google.maps.event.addDomListener(window, 'load', initialize);
+   <script type="text/javascript">
+      
     </script>
   </head>
   
@@ -105,7 +94,6 @@
     <div class="navbar-header">
       <a class="navbar-brand" href="#">Brand</a>
     </div>
-
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="nav bs-sidenav" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
