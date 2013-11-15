@@ -13,7 +13,6 @@ $(document).ready(function()
  var champaign = new google.maps.LatLng(40.106831, -88.227425);
  google.maps.event.addDomListener(window, 'load', initialize);
  drop();
- autoCompleteStops();
  $('#busStop').typeahead([
   {
     name: 'results',
