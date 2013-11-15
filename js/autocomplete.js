@@ -13,8 +13,18 @@ $(document).ready(function()
  var champaign = new google.maps.LatLng(40.106831, -88.227425);
  google.maps.event.addDomListener(window, 'load', initialize);
  drop();
-});
-			
+ autoCompleteStops();
+ $('#busStop').typeahead([
+  {
+    name: 'results',
+    valueKey: 'n',
+    remote: 'http://www.cumtd.com/autocomplete/stops/v1.0/json/search?query=%QUERY',
+    template: '<p><strong>{{n}}</strong></p>',
+    engine: Hogan
+  }
+]);
+
+});			
 
 /*
 PUT IN DOCUMENT.READY
@@ -55,8 +65,6 @@ function drop() {
 		title: "penis",
 		animation: google.maps.Animation.DROP
 	}));
-	console.log(iterator)
-	console.log('i' + i)
 	iterator++;
     }, i * 200);
   }
@@ -68,7 +76,7 @@ function drop() {
 
 var temp = [];
 
-	function getStops(){
+	function getAllStops(){
 	c = "http://developer.cumtd.com/api/v2.2/json/GetStops?key=a6188b7a357a485b866197cab02c09f0"
 		$.ajax({
 	        url: c,
@@ -80,21 +88,11 @@ var temp = [];
 	        }
 		  });
 	}
-	function autoCompleteStopsHelperFunction(data)
-	{
-		for(i=0;i<data.length;i++)
-		{
-		temp[i] = data[i].n;
-		}
-
-	}
-
 	function autoCompleteStops()
 	{
 		$("#busStop").keyup(function()
 		{
 			var value = $("#busStop").val();
-			console.log(value)
 			var c = "http://www.cumtd.com/autocomplete/stops/v1.0/json/search?query=" + value
 		     $.ajax
 		     ({
@@ -103,8 +101,18 @@ var temp = [];
 				 data: data,
 				 async: true,
 			     success: function(data) {
-			     autoCompleteStopsHelperFunction(data);
+			     	console.log(data)
+			     var tempData = autoCompleteStopsHelperFunction(data);
 			     }
 			 });
 		 });
+	}
+	function autoCompleteStopsHelperFunction(data)
+	{
+		for(i=0;i<data.length;i++)
+		{
+		temp[i] = data[i].n;
+		}
+		console.log(temp);
+		return temp;
 	}
