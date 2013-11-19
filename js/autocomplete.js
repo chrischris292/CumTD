@@ -10,7 +10,7 @@ var markers = [];
 var iterator = 0;
 $(document).ready(function()
 {
-$("#help").click(function(){ $("body").chardinJs('toggle');})
+$("#help").click(function(){introJs().start();})
  var champaign = new google.maps.LatLng(40.106831, -88.227425);
  google.maps.event.addDomListener(window, 'load', initialize);
  drop();
