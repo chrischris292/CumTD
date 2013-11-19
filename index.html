@@ -3,7 +3,6 @@
   <head>
       <link href="css/bootstrap.css" rel="stylesheet">
       <link href="css/font-awesome.css" rel="stylesheet">
-
 	  <title>Champaign Urbana Transit Bus Application</title>
     <style type="text/css">
       html { height: 100% }
@@ -85,8 +84,11 @@
     </script>
 	<script src = "http://codeorigin.jquery.com/jquery-2.0.3.js"></script>
 	<script src = "js/bootstrap3-typeahead.js"></script>
-	<script src = "js/autocomplete.js"></script>
+  <link href="css/chardinjs.css" rel="stylesheet">
+  <script src="js/chardinjs.min.js"></script>
   <script src="js/hogan.js"></script>
+	<script src = "js/autocomplete.js"></script>
+
    <script type="text/javascript">
       
     </script>
@@ -94,18 +96,20 @@
   
   <nav class="navbar navbar-default" role="navigation">
     <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <a class="navbar-brand" href=""><i class="fa fa-info-circle"></i> C-U Buses</a>
+    <div class="navbar-header" data-intro = "Refresh to Main Menu" data-position = "bottom">
+      <a class="navbar-brand" href=""><i class="fa fa-info-circle"></i> C-U Buses </a>
     </div>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="nav bs-sidenav" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#"><i class="fa fa-location-arrow"></i> Map</a></li>
-        <li><a href="#"><i class="fa fa-sign-in"></i> Sign In</a></li>
-        <li><a href="#"><i class="fa fa-mobile fa-3"></i> Register Mobile</a></li>
-	    <form class="navbar-form navbar-left" role="search">
-	           <input type="text" id="busStop" class="form-control" placeholder="Search For Stops Here" size = "31">
-	       </form>
+        <li class="active" data-intro = "Main Map" data-position = "bottom"><a href="#"><i class="fa fa-location-arrow"></i> Map</a></li>
+        <li><a href="#" data-intro = "Sign In Here" data-position = "bottom"><i class="fa fa-sign-in" ></i> Sign In</a></li>
+        <li><a href="#" data-intro = "Register Mobile For Push Notifications" data-position = "bottom"><i class="fa fa-mobile fa-3"></i> Register Mobile</a></li>
+	    <li data-intro = "Search for Bus Stops Here" data-position = "bottom" style = "height: 50px"><form class="navbar-form navbar-left" role="search" >
+	           <input type="text" id="busStop" class="form-control" placeholder="Search For Stops Here" size = "31" >
+	       </form></li>
+       <li data-intro = "Push Current Trip Plan to Mobile Devices" data-position = "bottom"><a href="#"><i class="fa fa-cloud-upload fa-3" ></i> Push To Cloud</a></li>
+       <li><a href = "#" id = "help"><i class="fa fa-question-circle fa-3" data-toggle = "chardinjs"> Help</i></a></li>
       </ul>
         </li>
       </ul>
@@ -113,7 +117,7 @@
   </nav>
   
   <body>
-    <div id="map-canvas"></div>
+    <div id="map-canvas" data-intro = "Maps here" data-position = "bottom"></div>
 	<div id ="maps-details">Abo rototil otede yamamid xepan ku feduc eyecuyo omic. Berodieb adanap lace ipobotu buleye. Etobi lesol edat oye ayitepos tasepoc sul tetipos, leben yu agute mu abin etebu; nitileh opebipie ni ocoge sabor tokeh ike enale ohanut. Efeye etelof sir sarafo etevec qor sa latugir eciwit atodaf. Efop cilicar cebab zutesom bova henera hala kosigeh du reca, te sut cicaned retebib hu fie nere boro. Eyaqur tie lo neg omirebac ceyaney, nido origefi ler bobe sim dima aceloy wede re paheciep: Ulo cinabir tohitu ibeci tinerec deme nowi tiburon! Nus yino yesa tieleti ilu cat wilosus. Di todelal esosir ilie te mahi! Ires ro bur coculu terie muyi agenoton ida so diy.
 
 Titeha rayip diven tes idogox rotol nidaru! Gatilov ket nat aca afin lit nipe rocuza lonaba. Leni hac riroh bin ededit. Qe egu uwotacor depe dirief? Ce dinadal nie celu pofey. Me riro oce sitic sunemer rob migayit. Epiecome oleda ha wepig bas tonig sacam nar afil. Li del piperap ietab. Desa etonusal biceteb tilis cacin veqe. Osi midefes rer bagiemas otabare her ruciel laruw! Si nec ori fimatus epawesel manatu esem co lirat miget: Eri ke yacat, pemoni olaloni iti sapoloh? Rarulef fa rutel diriel gosa fi tasuno tosec ten. Pemar otes ecici. Berac hes ana sutamas uta igated! Kilin sote gug salile wok. Otadel ditose no ilib deta wor nop yisar? Ayie la noq palo te cacapa bet. Lu emonoc dineger se lisatek relaloy zimive epibe.

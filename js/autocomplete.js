@@ -10,6 +10,7 @@ var markers = [];
 var iterator = 0;
 $(document).ready(function()
 {
+$("#help").click(function(){ $("body").chardinJs('toggle');})
  var champaign = new google.maps.LatLng(40.106831, -88.227425);
  google.maps.event.addDomListener(window, 'load', initialize);
  drop();
@@ -70,7 +71,6 @@ function drop() {
 }
 
 
-
 //REST OF CRAP
 
 var temp = [];
@@ -87,4 +87,30 @@ var temp = [];
 	        }
 		  });
 	}
+
+
+function createMarker (vehicle, map) {
+  var marker = new RichMarker({
+      position: new google.maps.LatLng(vehicle.lat, vehicle.lon),
+      map: map,
+      title: vehicle.trip.shape_id,
+      content: '<span id="routeIcon" style="background-color: #' + vehicle.route[0].route_color + '; color: #' + vehicle.route[0].route_text_color + '; border-color: #' + vehicle.route[0].route_color + ';"' +  '>' + vehicle.route[0].route_short_name  + vehicle.trip.direction + '</span>'
+  });
+
+  var contentString = '<h1>' + vehicle.trip.route_id + " - " + vehicle.trip.direction + '</h1>';
+
+  google.maps.event.addListener(marker, 'click', function() {
+      infowindow.open(map,marker);
+      infowindow.setContent(contentString)
+  });
+
+
+  infowindow = new google.maps.InfoWindow({
+    content: contentString
+  });
+  
+  return marker;
+}
+
+
 	
