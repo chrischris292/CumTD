@@ -94,7 +94,6 @@ function createMarker (vehicle, map) {
       position: new google.maps.LatLng(vehicle.lat, vehicle.lon),
       map: map,
       title: vehicle.trip.shape_id,
-      content: '<span id="routeIcon" style="background-color: #' + vehicle.route[0].route_color + '; color: #' + vehicle.route[0].route_text_color + '; border-color: #' + vehicle.route[0].route_color + ';"' +  '>' + vehicle.route[0].route_short_name  + vehicle.trip.direction + '</span>'
   });
 
   var contentString = '<h1>' + vehicle.trip.route_id + " - " + vehicle.trip.direction + '</h1>';
