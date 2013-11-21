@@ -53,59 +53,35 @@ function initialize() {
   };
   map = new google.maps.Map(document.getElementById('map-canvas'),mapOptions);
   //drop();
+  /* Puts all stops down.
   var theData = getAllStops(map);
   stops = theData.responseJSON.stops;
 		       	for(i=0;i<stops.length;i++)
 		       	{
 		       	theStop = stops[i];
-		       	console.log(theStop)
 				var marker = new google.maps.Marker(
 				{
 					position: new google.maps.LatLng (theStop.stop_points[0].stop_lat, theStop.stop_points[0].stop_lon),
 					map: map,
-					title: 'penis everywhere',
+					animation: google.maps.Animation.DROP,
+					title: 'test',
 				});
 		        }
-  var marker = new google.maps.Marker(
-	{
-		position: new google.maps.LatLng (40.106831, -88.227625),
-		map: map,
-		title: 'penis everywhere',
-	});
+		        */
 
 }
 
 //Functions
-function drop() {
-  for (var i = 0; i < busStopMarkers.length; i++) {
-    setTimeout(function() {
-		markers.push(new google.maps.Marker({
-		position: busStopMarkers[iterator],
-		map: map,
-		draggable: false,
-		title: "penis",
-		content: "big dicks",
-		animation: google.maps.Animation.DROP
-	}));
-	iterator++;
-    }, i * 200);
-  }
-}
-
-
-//REST OF CRAP
-
-var temp = [];
-
 function getAllStops(map){
 c = "http://developer.cumtd.com/api/v2.2/json/GetStops?key=a6188b7a357a485b866197cab02c09f0"
 	result = $.ajax({
 	        url: c,
 	        dataType: "json",
 			data: data,
-			async: false,
+			async: true,
 	        success: function(data) {
 		       	return data;
+		       	console.log(data)
 	    	}
 		  });
 	return result;
