@@ -79,7 +79,6 @@ c = "http://developer.cumtd.com/api/v2.2/json/GetStopsbysearch?query="+stop+"&ke
 	}
 	return result;	
 }
-
 function getStopData(stop_ID, marker,stopName){
 	//If direction = true, North, else = South.
 	var rowData = "";
