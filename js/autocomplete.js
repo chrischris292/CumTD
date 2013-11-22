@@ -1,6 +1,6 @@
 
 //dead
-
+//http://developer.cumtd.com/api/v2.2/json/GetDeparturesByStop?stop_ID=1STARY&key=a6188b7a357a485b866197cab02c09f0
 			  
 
 var temp = [];
@@ -9,9 +9,8 @@ var data = "";
 var markers = [];
 var iterator = 0;
 $(document).ready(function()
-	{
+{
 	google.maps.event.addDomListener(window, 'load', initialize);
-
 //Typeahead Support
 	$('#busStop').typeahead([
 	{
@@ -52,6 +51,8 @@ function initialize() {
     center: champaign
   };
   map = new google.maps.Map(document.getElementById('map-canvas'),mapOptions);
+    var theData = getAllStops(map);
+	console.log(theData)
   //drop();
   /* Puts all stops down.
   var theData = getAllStops(map);
@@ -68,7 +69,12 @@ function initialize() {
 				});
 		        }
 		        */
-
+	$('#busStop').keypress(function(event) {
+        if (event.keyCode == 13) {
+        	console.log(this.value);
+            getStopData(this.val());
+        }
+    });
 }
 
 //Functions
@@ -82,10 +88,20 @@ c = "http://developer.cumtd.com/api/v2.2/json/GetStops?key=a6188b7a357a485b86619
 	        success: function(data) {
 		       	return data;
 		       	console.log(data)
+
 	    	}
 		  });
 	return result;
 }
-	
+
+function getStopData(){
+		var marker = new google.maps.Marker(
+				{
+					position: new google.maps.LatLng (40.106831, -88.227425),
+					map: map,
+					animation: google.maps.Animation.DROP,
+					title: 'test',
+				});
+}
 
 
