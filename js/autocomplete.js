@@ -10,6 +10,8 @@ var markers = [];
 var iterator = 0;
 $(document).ready(function()
 {
+		toastr.options.timeOut = 300000; //Makes notification stay for 30 seconds. 
+		toastr.warning("Multiple stops found<br />Please choose between the following stops: <br />")
 	google.maps.event.addDomListener(window, 'load', initialize);
 //Typeahead Support
 	$('#busStop').typeahead([
@@ -103,8 +105,11 @@ c = "http://developer.cumtd.com/api/v2.2/json/GetStopsbysearch?query="+stop+"&ke
 	    	}
 		  });
 	console.log(result);
-		console.log(result.responseJSON.stops.length)
+	console.log(result.responseJSON.stops.length)
+	if(result.responseJSON.stops.length>1)
+	{
 
+	}
 	return result;
 		var marker = new google.maps.Marker(
 				{
