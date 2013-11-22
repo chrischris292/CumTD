@@ -9,9 +9,7 @@ var data = "";
 var markers = [];
 var iterator = 0;
 $(document).ready(function()
-{
-		toastr.options.timeOut = 300000; //Makes notification stay for 30 seconds. 
-		toastr.warning("Multiple stops found<br />Please choose between the following stops: <br />")
+{		
 	google.maps.event.addDomListener(window, 'load', initialize);
 //Typeahead Support
 	$('#busStop').typeahead([
@@ -94,30 +92,39 @@ c = "http://developer.cumtd.com/api/v2.2/json/GetStops?key=a6188b7a357a485b86619
 }
 
 function getStopData(stop){
+	var result;
 c = "http://developer.cumtd.com/api/v2.2/json/GetStopsbysearch?query="+stop+"&key=a6188b7a357a485b866197cab02c09f0"
-	result = $.ajax({
+	 $.ajax({
 	        url: c,
 	        dataType: "json",
 			data: data,
 			async: false,
 	        success: function(data) {
-		       	return data;
+	        	result = data;
 	    	}
 		  });
-	console.log(result);
-	console.log(result.responseJSON.stops.length)
-	if(result.responseJSON.stops.length>1)
+	if(result.stops.length==2)
 	{
-
+		toastr.options.timeOut = 300000; //Makes notification stay for 30 seconds. 
+		toastr.warning("Multiple stops found<br />Please choose between the following stops: <br /> <button type='button' id='0' class='btn btn-primary'>"+result.stops[0].stops_points[0].stop_name + "</button><button type='button' id='1' class='btn btn-primary'>" + result.stops[1].stops_points[0].stop_name + "</button>");
 	}
-	return result;
+	if(result.stops.length>2)
+	{
+		toastr.options.timeOut = 300000; //Makes notification stay for 30 seconds. 
+		toastr.error("ERROR",  "Too many stops found. Please provide further details.")
+	}
+	else if(result.stops.length==1)
+	{
+		console.log(result.stops[0].stop_points[0].stop_lat)
 		var marker = new google.maps.Marker(
 				{
-					position: new google.maps.LatLng (93, -88.227425),
+					position: new google.maps.LatLng (result.stops[0].stop_points[0].stop_lat, result.stops[0].stop_points[0].stop_lon),
 					map: map,
 					animation: google.maps.Animation.DROP,
-					title: 'test',
+					title: result.stops[0].stop_points[0].stop_name,
 				});
+	}
+	return result;	
 }
 
 
