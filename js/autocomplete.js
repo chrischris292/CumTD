@@ -75,18 +75,14 @@ c = "http://developer.cumtd.com/api/v2.2/json/GetStopsbysearch?query="+stop+"&ke
 					animation: google.maps.Animation.DROP,
 					title: result.stops[0].stop_points[0].stop_name,
 				});
-		toastr.options.timeOut = 300000;
-		toastr.info("Please choose between the following options <button type='button' id='north' class='btn btn-success'>North</button><button type='button' id='south' class='btn btn-success'>South</button>");
-		//If Response = North
-		$("#north").click(function(){
-			getStopData(result.stops[0].stop_id, true, marker, result.stops[0].stop_points[0].stop_name);
-		})
+			getStopData(result.stops[0].stop_id, marker, result.stops[0].stop_points[0].stop_name);
 	}
 	return result;	
 }
 
-function getStopData(stop_ID, direction, marker,stopName){
+function getStopData(stop_ID, marker,stopName){
 	//If direction = true, North, else = South.
+	var rowData = "";
 	var getStopLink = "http://developer.cumtd.com/api/v2.2/json/getStoptimesbystop?stop_id="+stop_ID+"&key=a6188b7a357a485b866197cab02c09f0";
 	 $.ajax({
 	        url: getStopLink,
@@ -98,12 +94,17 @@ function getStopData(stop_ID, direction, marker,stopName){
 	    	}
 		  });
 	 console.log(result)
+	 contentString = "<center><bold>"+stopName+"<bold></center><div><table class='table'> <thead> <tr> <th>Bus</th> <th>Arrival Time</th> <th>Departure Time</th> <th>Direction</th> </tr> </thead> <tbody> ";
 	 for(i=0; i<10; i++) //Displays the first ten bus departure times. 
-	 {	 
+	 {	
 	 	arrivalTime = result.stop_times[i].arrival_time;
-	 	contentString = "<center>"+stopName+"</center><div><table class='table'> <thead> <tr> <th>Bus</th> <th>Departure Time</th> <th>Arrival Time</th> <th>Direction</th> </tr> </thead> <tbody> <tr> <td>001</td> <td>Rammohan </td> <td>Reddy</td> <td>A+</td> </tr> <tr> <td>002</td> <td>Smita</td> <td>Pallod</td> <td>A</td> </tr> <tr> <td>003</td> <td>Rabindranath</td> <td>Sen</td> <td>A+</td> </tr> </tbody> </table>";
+	 	//requires form <tr> <td> crap</td></tr> for each row.
 	 	departureTime = result.stop_times[i].departure_time;
+	 	routeID = result.stop_times[i].trip.route_id;
+	 	direction = result.stop_times[i].trip.direction;
+	 	rowData = rowData + "<tr><td>"+routeID+"</td><td>" + arrivalTime + "</td><td>" + departureTime + "</td><td>" + direction + "</td></tr>";
 	}
+	contentString = contentString + rowData + "</tbody> </table>";
 	addInfoWindow(marker,contentString)
 
 }
