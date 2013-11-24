@@ -7,8 +7,7 @@
     <style type="text/css">
       html { height: 100% }
       body { height: 100%; }
-      #map-canvas { margin: 0; padding: 0; width: 80.8%; float: right; height: 100%; }
-	  #map-details {margin: 0; padding: 0; width: 19.5%; float: left; height: 100%;  }
+      #map-canvas { margin: 0; padding: 0; width: 100%; float: right; height: 100%; }
 .typeahead,
 .tt-query,
 .tt-hint {
@@ -88,6 +87,8 @@
   <script src="js/hogan.js"></script>
 	<script src = "js/autocomplete.js"></script>
   <script src = "js/toastr.min.js"></script>
+  <script src = "js/spin.min.js"></script>
+  <script src = "js/bootstrap.min.js"></script>
   <link href="css/toastr.min.css" rel="stylesheet">
 
    <script type="text/javascript">
@@ -104,7 +105,7 @@
     <div class="nav bs-sidenav" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li class="active" data-intro = "Main Map" data-position = "bottom"><a href="#"><i class="fa fa-location-arrow"></i> Map</a></li>
-        <li><a href="#" data-intro = "Sign In Here" data-position = "bottom"><i class="fa fa-sign-in" ></i> Sign In</a></li>
+        <li><a href="#" data-intro = "Sign In Here" data-position = "bottom" data-toggle="modal" data-target="#myModal"><i class="fa fa-sign-in" ></i> Sign In</a></li>
         <li><a href="#" data-intro = 'Register Mobile For Push Notifications' data-position = "bottom"><i class="fa fa-mobile fa-3"></i> Register Mobile</a></li>
 	    <li data-intro = "Search for Bus Stops Here" data-position = "bottom" style = "height: 50px"><form class="navbar-form navbar-left" role="search" >
 	           <input type="text" id="busStop" class="form-control" placeholder="Search For Stops Here" size = "31" >
@@ -116,14 +117,26 @@
       </ul>
     </div><!-- /.navbar-collapse -->
   </nav>
-  
   <body>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Sign In</h4>
+      </div>
+      <div class="modal-body">
+        WHATS      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
     <div id="map-canvas" data-intro = "Maps here" data-position = "bottom"></div>
-	<div id ="maps-details">Abo rototil otede yamamid xepan ku feduc eyecuyo omic. Berodieb adanap lace ipobotu buleye. Etobi lesol edat oye ayitepos tasepoc sul tetipos, leben yu agute mu abin etebu; nitileh opebipie ni ocoge sabor tokeh ike enale ohanut. Efeye etelof sir sarafo etevec qor sa latugir eciwit atodaf. Efop cilicar cebab zutesom bova henera hala kosigeh du reca, te sut cicaned retebib hu fie nere boro. Eyaqur tie lo neg omirebac ceyaney, nido origefi ler bobe sim dima aceloy wede re paheciep: Ulo cinabir tohitu ibeci tinerec deme nowi tiburon! Nus yino yesa tieleti ilu cat wilosus. Di todelal esosir ilie te mahi! Ires ro bur coculu terie muyi agenoton ida so diy.
-
-Titeha rayip diven tes idogox rotol nidaru! Gatilov ket nat aca afin lit nipe rocuza lonaba. Leni hac riroh bin ededit. Qe egu uwotacor depe dirief? Ce dinadal nie celu pofey. Me riro oce sitic sunemer rob migayit. Epiecome oleda ha wepig bas tonig sacam nar afil. Li del piperap ietab. Desa etonusal biceteb tilis cacin veqe. Osi midefes rer bagiemas otabare her ruciel laruw! Si nec ori fimatus epawesel manatu esem co lirat miget: Eri ke yacat, pemoni olaloni iti sapoloh? Rarulef fa rutel diriel gosa fi tasuno tosec ten. Pemar otes ecici. Berac hes ana sutamas uta igated! Kilin sote gug salile wok. Otadel ditose no ilib deta wor nop yisar? Ayie la noq palo te cacapa bet. Lu emonoc dineger se lisatek relaloy zimive epibe.
-
-Iso obivak miyitad let eduras. Odinanen nubiem ron wigaha gal siyol desazan; cohe tuwoma neg yem ci. Uraca tohotic asunut setuyie etu rorew hadu. Cif bomo gel ifupam narinar nenasas da nede rotodik mewa; idar onotema tesesin seb ahese unecevi opu riko res lat. Capic ebeyetut nele upanuyer behete dar amececu pufu sititoh. Fi sig betil dese ber. Ipomi dene li se ronediet nuciyo alevel ecutibe ninierus, dos uranatah amupa facipi set no gebenu! Tiesiwon kiter asexegib lanehix. Budacac terat dirie adatot. Ado siceg rerenop torera tiebo, cenece ras repe losin mo irese. Favaf atetadel ni oca teletad dif uditore ere.
-
   </body>
 </html>

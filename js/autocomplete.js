@@ -25,7 +25,7 @@ $(document).ready(function()
 	{
 			introJs().start();
 	})
-
+// Global functions to show/hide on ajax requests
 });			
 //Functions
 function getAllStops(map){
@@ -49,20 +49,16 @@ c = "http://developer.cumtd.com/api/v2.2/json/GetStopsbysearch?query="+stop+"&ke
 	        url: c,
 	        dataType: "json",
 			data: data,
-			async: false,
+			async: true,
 	        success: function(data) {
 	        	result = data;
-	    	}
-		  });
-	 console.log(result)
+	        	 console.log(result)
 	if(result.stops.length==2)
 	{
-		toastr.options.timeOut = 300000; //Makes notification stay for 30 seconds. 
 		toastr.warning("Multiple stops found<br />Please choose between the following stops: <br /> <button type='button' id='stop0' class='btn btn-primary'>"+result.stops[0].stops_points[0].stop_name + "</button><button type='button' id='stop1' class='btn btn-primary'>" + result.stops[1].stops_points[0].stop_name + "</button>");
 	}
 	if(result.stops.length>2)
 	{
-		toastr.options.timeOut = 300000; //Makes notification stay for 30 seconds. 
 		toastr.error("ERROR",  "Too many stops found. Please provide further details.")
 	}
 	else if(result.stops.length==1)
@@ -78,6 +74,9 @@ c = "http://developer.cumtd.com/api/v2.2/json/GetStopsbysearch?query="+stop+"&ke
 			getStopData(result.stops[0].stop_id, marker, result.stops[0].stop_points[0].stop_name);
 	}
 	return result;	
+	    	}
+		  });
+	
 }
 function getStopData(stop_ID, marker,stopName){
 	//If direction = true, North, else = South.
@@ -87,24 +86,23 @@ function getStopData(stop_ID, marker,stopName){
 	        url: getStopLink,
 	        dataType: "json",
 			data: data,
-			async: false,
+			async: true,
 	        success: function(data) {
 	        	result = data;
-	    	}
-		  });
-	 console.log(result)
-	 contentString = "<center><bold>"+stopName+"<bold></center><div><table class='table'> <thead> <tr> <th>Bus</th> <th>Arrival Time</th> <th>Departure Time</th> <th>Direction</th> </tr> </thead> <tbody> ";
+	        	 contentString = "<center><bold>"+stopName+"<bold></center><div><table class='table'> <thead> <tr> <th>Bus</th> <th>Arrival Time</th> <th>Departure Time</th> <th>Direction</th> </tr> </thead> <tbody> ";
 	 for(i=0; i<10; i++) //Displays the first ten bus departure times. 
 	 {	
 	 	arrivalTime = result.stop_times[i].arrival_time;
 	 	//requires form <tr> <td> crap</td></tr> for each row.
 	 	departureTime = result.stop_times[i].departure_time;
-	 	routeID = result.stop_times[i].trip.route_id;
+	 	routeID = result.stop_times[i].trip.route_id + result.stop_times[i].trip.trip_headsign;
 	 	direction = result.stop_times[i].trip.direction;
 	 	rowData = rowData + "<tr><td>"+routeID+"</td><td>" + arrivalTime + "</td><td>" + departureTime + "</td><td>" + direction + "</td></tr>";
 	}
 	contentString = contentString + rowData + "</tbody> </table>";
 	addInfoWindow(marker,contentString)
+	    	}
+		  });	
 
 }
 //Google Map helper functions
@@ -120,7 +118,6 @@ var iterator = 0;
 var map;
 
 function initialize() {
-
   var mapOptions = {
     zoom: 12,
     mapTypeId: google.maps.MapTypeId.ROADMAP,

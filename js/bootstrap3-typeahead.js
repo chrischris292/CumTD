@@ -307,7 +307,8 @@
                 cache: o.cache,
                 timeout: o.timeout,
                 dataType: o.dataType || "json",
-                beforeSend: o.beforeSend
+                beforeSend: o.beforeSend,
+                global:false
             };
             this._get = (/^throttle$/i.test(o.rateLimitFn) ? utils.throttle : utils.debounce)(this._get, o.rateLimitWait || 300);
         }
