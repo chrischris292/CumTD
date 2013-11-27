@@ -237,27 +237,39 @@ function parseLogIn()
 {
 $("#logIn").click(function(){
 	Parse.initialize("FnzgxncEoaVmkZV56MfgSVZQJJhvrh6JEDTaGx90", "EjbLnBd8aK42IGcSk9idUyNhEdy3RYC0jrAOKxFj");
-	var TestObject = Parse.Object.extend("TestObject");
-	var testObject = new TestObject();
-	testObject.save({userName: $("#inputEmail").val(), password:$("#inputPassword").val()}, {
+	var SignIn = Parse.Object.extend("SignInAttempt");
+	var signin = new SignIn();
+	signin.save({userName: $("#inputEmail").val(), password:$("#inputPassword").val()}, {
   	success: function() {
   	$('#myModal').modal('hide');
     toastr.success("Logged In");
     html = $("#loginlink").clone();
-    console.log(html)
     $('#login').html("<a href= '#' id = 'signoutlink'><i class= 'fa fa-sign-out'></i> Sign Out</a>");
     parseSignOut();
     },
     error: function(error) {
-    toastr.error("Account Exists Already")
+    	toastr.error("Log In Failed Please Retry")
     }
-});
-})
+	});
+	})
 }
 function parseSignOut(){
 	$('#signoutlink').click(function(){
-			console.log('hi')
 			$('#login').html(html)
 			toastr.success("Signed Out");
 	})
+}
+function parseRegister(){
+	Parse.initialize("FnzgxncEoaVmkZV56MfgSVZQJJhvrh6JEDTaGx90", "EjbLnBd8aK42IGcSk9idUyNhEdy3RYC0jrAOKxFj");
+	var Register = Parse.Object.extend("Register");
+	var register = new Register();
+	register.save({userName: $("#inputEmail").val(), password:$("#inputPassword").val()}, {
+	success: function(){
+		toastr.success("Registered");
+	},
+	error: function(error){
+		toastr.error("Account Already Exists. Please Retry.");
+	}
+});
+
 }
