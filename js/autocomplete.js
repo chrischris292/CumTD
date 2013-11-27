@@ -8,6 +8,7 @@ var data = "";
 
 var markers = [];
 var iterator = 0;
+var html;
 $(document).ready(function()
 {		
 	google.maps.event.addDomListener(window, 'load', initialize);
@@ -26,7 +27,9 @@ $(document).ready(function()
 			introJs().start();
 	})
 // Global functions to show/hide on ajax requests
-});			
+parseLogIn();
+parseSignOut();
+})
 //Functions
 function getAllStops(map){
 c = "http://developer.cumtd.com/api/v2.2/json/GetStops?key=a6188b7a357a485b866197cab02c09f0"
@@ -228,3 +231,33 @@ function addInfoWindow(marker, message) {
                 infoWindow.open(map, marker);
             });
         }
+
+//Function Parse
+function parseLogIn()
+{
+$("#logIn").click(function(){
+	Parse.initialize("FnzgxncEoaVmkZV56MfgSVZQJJhvrh6JEDTaGx90", "EjbLnBd8aK42IGcSk9idUyNhEdy3RYC0jrAOKxFj");
+	var TestObject = Parse.Object.extend("TestObject");
+	var testObject = new TestObject();
+	testObject.save({userName: $("#inputEmail").val(), password:$("#inputPassword").val()}, {
+  	success: function() {
+  	$('#myModal').modal('hide');
+    toastr.success("Logged In");
+    html = $("#loginlink").clone();
+    console.log(html)
+    $('#login').html("<a href= '#' id = 'signoutlink'><i class= 'fa fa-sign-out'></i> Sign Out</a>");
+    parseSignOut();
+    },
+    error: function(error) {
+    toastr.error("Account Exists Already")
+    }
+});
+})
+}
+function parseSignOut(){
+	$('#signoutlink').click(function(){
+			console.log('hi')
+			$('#login').html(html)
+			toastr.success("Signed Out");
+	})
+}
