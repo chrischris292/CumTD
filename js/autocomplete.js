@@ -52,7 +52,6 @@ c = "http://developer.cumtd.com/api/v2.2/json/GetStopsbysearch?query="+stop+"&ke
 			async: true,
 	        success: function(data) {
 	        	result = data;
-	        	 console.log(result)
 	if(result.stops.length==2)
 	{
 		toastr.warning("Multiple stops found<br />Please choose between the following stops: <br /> <button type='button' id='stop0' class='btn btn-primary'>"+result.stops[0].stops_points[0].stop_name + "</button><button type='button' id='stop1' class='btn btn-primary'>" + result.stops[1].stops_points[0].stop_name + "</button>");
@@ -63,7 +62,6 @@ c = "http://developer.cumtd.com/api/v2.2/json/GetStopsbysearch?query="+stop+"&ke
 	}
 	else if(result.stops.length==1)
 	{
-		console.log(result.stops[0].stop_points[0].stop_lat)
 		var marker = new google.maps.Marker(
 				{
 					position: new google.maps.LatLng (result.stops[0].stop_points[0].stop_lat, result.stops[0].stop_points[0].stop_lon),
@@ -71,13 +69,91 @@ c = "http://developer.cumtd.com/api/v2.2/json/GetStopsbysearch?query="+stop+"&ke
 					animation: google.maps.Animation.DROP,
 					title: result.stops[0].stop_points[0].stop_name,
 				});
-			getStopData(result.stops[0].stop_id, marker, result.stops[0].stop_points[0].stop_name);
+			getDeparturesByStop(result.stops[0].stop_id, marker, result.stops[0].stop_points[0].stop_name);
 	}
 	return result;	
 	    	}
 		  });
 	
 }
+function getDeparturesByStop(stop_ID,marker,stopName)
+{
+//If direction = true, North, else = South.
+	var rowData = "";
+	var getStopLink = "http://developer.cumtd.com/api/v2.2/json/getDeparturesByStop?stop_id="+stop_ID+"&key=a6188b7a357a485b866197cab02c09f0";
+	 $.ajax({
+	        url: getStopLink,
+	        dataType: "json",
+			data: data,
+			async: true,
+	        success: function(data) {
+	        	result = data;
+	        	console.log(result)
+	        	contentString = "<center><bold>"+stopName+"<bold></center><div><table class='table'> <thead> <tr> <th>Bus</th> <th>Arrival Time</th> <th>Direction</th> </tr> </thead> <tbody> ";
+	        	if(result.departures.length>0)
+	        	{
+					{
+					for(i=0; i<result.departures.length; i++) //Displays the first ten bus departure times. 
+						{	
+							arrivalTime = result.departures[i].expected_mins + " minutes";
+							//requires form <tr> <td> crap</td></tr> for each row.
+							routeID = result.departures[i].headsign;
+							name = result.departures[i].route.route_id;
+							vehicle_id=result.departures[i].vehicle_id;
+							rowData = rowData + "<tr><td><a href = '#' onclick = getVehicle(" + vehicle_id + ")>" + name + "</a></td><td>" + arrivalTime + "</td><td>" + name + "</td></tr>";
+						}
+					contentString = contentString + rowData + "</tbody> </table>";
+					addInfoWindow(marker,contentString)
+					}
+				}
+				else if(result.departures.length==0)
+				{
+					contentString = contentString +  "<tr><td>No Stops Found.</td></tr>";
+					addInfoWindow(marker,contentString);
+				}
+			}
+			});	
+	
+}
+function getVehicle(vehicle_id)
+{
+	var getStopLink = "http://developer.cumtd.com/api/v2.2/json/getVehicle?vehicle_id="+vehicle_id+"&key=a6188b7a357a485b866197cab02c09f0";
+	$.ajax({
+		url: getStopLink,
+        dataType: "json",
+		data: data,
+		async: true,
+        success: function(data) {
+        	console.log(data)
+        	result = data;
+        		var marker = new google.maps.Marker(
+				{
+					position: new google.maps.LatLng (result.vehicles[0].location.lat, result.vehicles[0].location.lon),
+					map: map,
+					animation: google.maps.Animation.BOUNCE,
+					title: result.vehicles[0].trip.route_id,
+				});
+				contentString=result.vehicles[0].trip.route_id + "<br />"
+				addInfoWindow(marker,contentString);
+        }
+	});
+	setInterval(function() 
+	{
+			$.ajax({
+			url: getStopLink,
+		    dataType: "json",
+			data: data,
+			async: true,
+		    success: function(data) {
+		    result = data;
+   			position = new google.maps.LatLng(result.vehicles[0].location.lat, result.vehicles[0].location.lon);
+    		marker.setPosition(position);
+    		console.log(updating);
+    		}
+    	});
+  	},30000); 
+}
+//THIS FUNCTION GETS TOO MUCH DATA MAKES MAPS SLOW.
 function getStopData(stop_ID, marker,stopName){
 	//If direction = true, North, else = South.
 	var rowData = "";
@@ -103,8 +179,8 @@ function getStopData(stop_ID, marker,stopName){
 	addInfoWindow(marker,contentString)
 	    	}
 		  });	
-
 }
+
 //Google Map helper functions
 
 
