@@ -7,7 +7,7 @@
     <style type="text/css">
       html { height: 100% }
       body { height: 100%; }
-      #map-canvas { margin: 0; padding: 0; width: 100%; float: right; height: 100%; }
+      #map-canvas { margin: 0; padding: 0; width: 100%; float: right; height: 91%; }
 .typeahead,
 .tt-query,
 .tt-hint {
@@ -128,7 +128,21 @@
         <h4 class="modal-title" id="myModalLabel">Sign In</h4>
       </div>
       <div class="modal-body">
-        WHATS      </div>
+        <form class="bs-example form-horizontal">
+                  <div class="form-group">
+                    <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+                    <div class="col-lg-10">
+                      <input type="text" class="form-control" id="inputEmail" placeholder="Email">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputPassword" class="col-lg-2 control-label">Password</label>
+                    <div class="col-lg-10">
+                      <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                    </div>
+                  </div>
+              </form>
+        </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Save changes</button>
@@ -137,6 +151,6 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-    <div id="map-canvas" data-intro = "Maps here" data-position = "bottom"></div>
+    <div id="map-canvas" data-intro = "Maps here" data-position = "top"></div>
   </body>
 </html>
