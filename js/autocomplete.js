@@ -58,7 +58,7 @@ c = "http://developer.cumtd.com/api/v2.2/json/GetStopsbysearch?query="+stop+"&ke
 	}
 	if(result.stops.length>2)
 	{
-		toastr.error("ERROR",  "Too many stops found. Please provide further details.")
+		toastr.error("Too many stops found. Please provide further details.","ERROR")
 	}
 	else if(result.stops.length==1)
 	{
@@ -117,28 +117,33 @@ function getDeparturesByStop(stop_ID,marker,stopName)
 }
 function getVehicle(vehicle_id)
 {
+	counter = 0;
 	var getStopLink = "http://developer.cumtd.com/api/v2.2/json/getVehicle?vehicle_id="+vehicle_id+"&key=a6188b7a357a485b866197cab02c09f0";
 	$.ajax({
 		url: getStopLink,
         dataType: "json",
 		data: data,
 		async: true,
+		error: function(){
+			toastr.error( "CUMTD API Can Not Find Bus","Error");
+		},
         success: function(data) {
-        	console.log(data)
-        	result = data;
-        		var marker = new google.maps.Marker(
-				{
-					position: new google.maps.LatLng (result.vehicles[0].location.lat, result.vehicles[0].location.lon),
-					map: map,
-					animation: google.maps.Animation.BOUNCE,
-					title: result.vehicles[0].trip.route_id,
-				});
-				contentString=result.vehicles[0].trip.route_id + "<br />"
-				addInfoWindow(marker,contentString);
-        }
-	});
+
+	console.log(data)
+	result = data;
+		var marker = new google.maps.Marker(
+		{
+			position: new google.maps.LatLng (result.vehicles[0].location.lat, result.vehicles[0].location.lon),
+			map: map,
+			animation: google.maps.Animation.BOUNCE,
+			title: result.vehicles[0].trip.route_id,
+		});
+		contentString=result.vehicles[0].trip.route_id + "<br />"
+		addInfoWindow(marker,contentString);
+
 	setInterval(function() 
 	{
+		counter ++;
 			$.ajax({
 			url: getStopLink,
 		    dataType: "json",
@@ -148,10 +153,16 @@ function getVehicle(vehicle_id)
 		    result = data;
    			position = new google.maps.LatLng(result.vehicles[0].location.lat, result.vehicles[0].location.lon);
     		marker.setPosition(position);
-    		console.log(updating);
+    		contentString=result.vehicles[0].trip.route_id + "<br /> This location has been updated: " + counter + " times"
+			addInfoWindow(marker,contentString);
+			console.log(position)
+    		console.log("updating");
     		}
     	});
-  	},30000); 
+  	},30000);
+        }
+	});
+	 
 }
 //THIS FUNCTION GETS TOO MUCH DATA MAKES MAPS SLOW.
 function getStopData(stop_ID, marker,stopName){
