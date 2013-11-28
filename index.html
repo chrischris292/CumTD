@@ -88,15 +88,14 @@
   <script src = "js/toastr.min.js"></script>
   <script src = "js/spin.min.js"></script>
   <script src = "js/bootstrap.min.js"></script>
-  <script src = "js/jsonp.js"></script>
   <script src="http://www.parsecdn.com/js/parse-1.2.13.min.js"></script>
   <link href="css/toastr.min.css" rel="stylesheet">
    <script type="text/javascript">
       
     </script>
   </head>
-  
-  <nav class="navbar navbar-default" role="navigation">
+
+  <nav class="navbar navbar-default blurred" role="navigation">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header" data-intro = "Refresh to Main Menu" data-position = "bottom">
       <a class="navbar-brand" href=""><i class="fa fa-info-circle"></i> C-U Buses </a>
@@ -107,7 +106,7 @@
         <li class="active" data-intro = "Main Map" data-position = "bottom"><a href="#"><i class="fa fa-location-arrow"></i> Map</a></li>
         <li id = 'login'><a href="#" data-intro = "Sign In Here" data-position = "bottom" data-toggle="modal" data-target="#myModal" id = "loginlink"><i class="fa fa-sign-in" ></i> Sign In</a>
         </li>
-        <li><a href="#" data-intro = 'Register Mobile For Push Notifications' data-position = "bottom"><i class="fa fa-mobile fa-3"></i> Register Mobile</a></li>
+        <li><a href="#" data-intro = 'Register Mobile For Push Notifications' data-position = "bottom" data-toggle="modal" data-target="#registration"><i class="fa fa-arrow-circle-o-up fa-3"></i> Register</a></li>
 	    <li data-intro = "Search for Bus Stops Here" data-position = "bottom" style = "height: 50px"><form class="navbar-form navbar-left" role="search" >
 	           <input type="text" id="busStop" class="form-control" placeholder="Search For Stops Here" size = "31" >
 	       </form></li>
@@ -118,15 +117,17 @@
       </ul>
     </div><!-- /.navbar-collapse -->
   </nav>
-  <body>
+    <body>
 
+    <div id="map-canvas" class = "blurred"></div>
+</body>
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Sign In</h4>
+        <h3 class="modal-title" id="myModalLabel">Sign In</h3>
       </div>
       <div class="modal-body">
         <form class="bs-example form-horizontal">
@@ -152,6 +153,41 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-    <div id="map-canvas" ></div>
-  </body>
+<!--MODAL REGISTRATION !-->
+<div class="modal fade" id="registration" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="modal-title" id="myModalLabel">Registration</h3>
+      </div>
+      <div class="modal-body">
+        <form class="bs-example form-horizontal">
+                  <div class="form-group">
+                    <label for="inputEmail" class="col-lg-2 control-label">UserName</label>
+                    <div class="col-lg-10">
+                      <input type="text" class="form-control" id="registerUser" placeholder="User Name">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputPassword" class="col-lg-2 control-label">Password</label>
+                    <div class="col-lg-10">
+                      <input type="password" class="form-control" id="registerPassword" placeholder="Password">
+                    </div>
+                    </div>
+                  <div class="form-group">
+                  <label for="inputPassword" class="col-lg-2 control-label">Password</label>
+                    <div class="col-lg-10">
+                      <input type="password" class="form-control" id="verifyRegisterPassword" placeholder="Verify Password">
+                    </div>
+                  </div>
+              </form>
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id = "registerIn">Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 </html>

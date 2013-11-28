@@ -29,6 +29,7 @@ $(document).ready(function()
 // Global functions to show/hide on ajax requests
 parseLogIn();
 parseSignOut();
+passwordValidation();
 })
 //Functions
 function getAllStops(map){
@@ -267,13 +268,39 @@ function parseRegister(){
 	Parse.initialize("FnzgxncEoaVmkZV56MfgSVZQJJhvrh6JEDTaGx90", "EjbLnBd8aK42IGcSk9idUyNhEdy3RYC0jrAOKxFj");
 	var Register = Parse.Object.extend("Register");
 	var register = new Register();
-	register.save({userName: $("#inputEmail").val(), password:$("#inputPassword").val()}, {
+	register.save({userName: $("#registerUser").val(), password:$("#verifyRegisterPassword").val()}, {
 	success: function(){
-		toastr.success("Registered");
+		toastr.success("Successfully Registered", "Welcome " + $('#registerUser').val())
 	},
 	error: function(error){
 		toastr.error("Account Already Exists. Please Retry.");
 	}
 });
 
+}
+
+//Password Validation Functions
+function passwordValidation(){
+	$('#registerIn').click(function(){
+		if($('#verifyRegisterPassword').val()==$('#registerPassword').val()){
+			parseRegister();
+			$('#registration').modal('hide');
+		}
+		else{
+			toastr.error("Passwords Do Not Match")
+			$('#verifyRegisterPassword').keyup(function(){
+			if($('#verifyRegisterPassword').val()==$('#registerPassword').val()){
+			toastr.success("Passwords Match")
+			$('#registerIn').prop('disabled', false);
+			}
+			else{
+			$('#registerIn').prop('disabled', true);
+			}
+	})
+		}
+	})
+
+		
+
+	
 }
