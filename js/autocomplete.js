@@ -281,23 +281,43 @@ function parseRegister(){
 
 //Password Validation Functions
 function passwordValidation(){
+	counter=0;
 	$('#registerIn').click(function(){
-		if($('#verifyRegisterPassword').val()==$('#registerPassword').val()){
+		if($('#verifyRegisterPassword').val()==$('#registerPassword').val()&& $('#registerUser').val()!=""){
 			parseRegister();
 			$('#registration').modal('hide');
+			$('#verifyRegisterPassword').val("")
+			$('#registerPassword').val("")
+			setTimeout(function(){$('#registerUser').val("")},3000);
+
 		}
 		else{
-			toastr.error("Passwords Do Not Match")
-			$('#verifyRegisterPassword').keyup(function(){
-			if($('#verifyRegisterPassword').val()==$('#registerPassword').val()){
-			toastr.success("Passwords Match")
-			$('#registerIn').prop('disabled', false);
-			}
-			else{
-			$('#registerIn').prop('disabled', true);
-			}
-	})
+			if($('#registerUser').val()==""&&counter==0){
+					toastr.error("Username Does Not Exist")
+					}
+					if($('#verifyRegisterPassword').val()==$('#registerPassword').val())
+					{
+					toastr.success("Passwords Match")
+					$('#registerIn').prop('disabled', false);
+					}
+					else
+					{
+					toastr.error("Passwords Do Not Match")
+					$('#registerIn').prop('disabled', true);
+					}
+					counter++;
+					$('#verifyRegisterPassword').keyup(function(){
+					if($('#registerUser').val()==""){
+					toastr.error("Username Does Not Exist")
+					}
+					if($('#verifyRegisterPassword').val()==$('#registerPassword').val())
+					{
+					toastr.success("Passwords Match")
+					$('#registerIn').prop('disabled', false);
+					}
+				})
 		}
+
 	})
 
 		
