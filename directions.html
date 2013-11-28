@@ -77,9 +77,6 @@
   font-size: 14px;
 }
     </style>
-    <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDv31CvY7ujhUTP3DDn2ArfedscGjXl9lU&sensor=true">
-    </script>
 	<script src = "http://code.jquery.com/jquery-2.0.3.min.js"></script>
 	<script src = "js/bootstrap3-typeahead.js"></script>
   <link href="css/introjs.css" rel="stylesheet">
@@ -104,12 +101,12 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="nav bs-sidenav" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active" data-intro = "Main Map" data-position = "bottom"><a href="index.html"><i class="fa fa-location-arrow"></i> Map</a></li>
-        <li data-intro = "Get Directions" data-position = "bottom"><a href="directions.html"><i class="fa fa-road"></i> Get Directions</a></li>
+        <li data-intro = "Main Map" data-position = "bottom"><a href="index.html"><i class="fa fa-location-arrow"></i> Map</a></li>
+        <li class = "active" data-intro = "Get Directions" data-position = "bottom"><a href="#"><i class="fa fa-road"></i> Get Directions</a></li>
        <li data-intro = "Push Current Trip Plan to Mobile Devices" data-position = "bottom"><a href="#"><i class="fa fa-cloud-upload fa-3" ></i> Push To Cloud</a></li>
-      <li data-intro = "Search for Bus Stops Here" data-position = "bottom" style = "height: 50px"><form class="navbar-form navbar-left" role="search" >
-             <input type="text" id="busStop" class="form-control" placeholder="Search For Stops Here" size = "31" style = "background-color: rgb(255, 255, 255);">
-         </form></li>
+	    <li data-intro = "Search for Bus Stops Here" data-position = "bottom" style = "height: 50px"><form class="navbar-form navbar-left" role="search" >
+	           <input type="text" id="busStop" class="form-control" placeholder="Search For Stops Here" size = "31" style = "background-color: rgb(255, 255, 255);">
+	       </form></li>
         <li id = 'login'><a href="#" data-intro = "Sign In Here" data-position = "bottom" data-toggle="modal" data-target="#myModal" id = "loginlink"><i class="fa fa-sign-in" ></i> Sign In</a>
         </li>
         <li><a href="#" data-intro = 'Register Mobile For Push Notifications' data-position = "bottom" data-toggle="modal" data-target="#registration"><i class="fa fa-arrow-circle-o-up fa-3"></i> Register</a></li>
@@ -120,9 +117,28 @@
     </div><!-- /.navbar-collapse -->
   </nav>
     <body>
-
-    <div id="map-canvas" class = "blurred"></div>
-</body>
+      <div style="text-align:center">
+      <h3>Where do you want to start?</h3>
+      <div>
+        <form style="margin: auto; width:166px" role="search" >
+          <input type="text" id="busStop" class="form-control" placeholder="Enter a Stop or Destination" size = "31" style = "background-color: rgb(255, 255, 255);">
+        </form>
+      </div>
+      <h3>Where do you want to go?</h3>
+      <div>
+        <form style="margin: auto; width:166px" role="search" >
+           <input type="text" id="busStop" class="form-control" placeholder="Enter a Stop or Destination" size = "31" style = "background-color: rgb(255, 255, 255);">
+        </form>
+      </div>
+      <h3>When do you want to leave?</h3>
+      <div>
+        <select style="padding-bottom:5px">Now</select>
+      </div>
+      <div>
+        <button type="submit" style="width:80px">Let's Go!</button>
+      </div>
+    </div>
+    </body>
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
   <div class="modal-dialog">
