@@ -10,7 +10,7 @@ var markers = [];
 var iterator = 0;
 var html;
 $(document).ready(function()
-{		
+{
 	google.maps.event.addDomListener(window, 'load', initialize);
 //Typeahead Support
 	$('#busStop').typeahead([
@@ -35,7 +35,7 @@ function getAllStops(map){
 c = "http://developer.cumtd.com/api/v2.2/json/GetStops?key=a6188b7a357a485b866197cab02c09f0"
 	result = $.ajax({
 	        url: c,
-	        dataType: "json",
+	        dataType: "jsonp",
 			data: data,
 			async: true,
 	        success: function(data) {
@@ -50,7 +50,7 @@ function getStop(stop){
 c = "http://developer.cumtd.com/api/v2.2/json/GetStopsbysearch?query="+stop+"&key=a6188b7a357a485b866197cab02c09f0"
 	 $.ajax({
 	        url: c,
-	        dataType: "json",
+	        dataType: "jsonp",
 			data: data,
 			async: true,
 	        success: function(data) {
@@ -86,7 +86,7 @@ function getDeparturesByStop(stop_ID,marker,stopName)
 	var getStopLink = "http://developer.cumtd.com/api/v2.2/json/getDeparturesByStop?stop_id="+stop_ID+"&key=a6188b7a357a485b866197cab02c09f0";
 	 $.ajax({
 	        url: getStopLink,
-	        dataType: "json",
+	        dataType: "jsonp",
 			data: data,
 			async: true,
 	        success: function(data) {
@@ -124,14 +124,18 @@ function getVehicle(vehicle_id)
 	var getStopLink = "http://developer.cumtd.com/api/v2.2/json/getVehicle?vehicle_id="+vehicle_id+"&key=a6188b7a357a485b866197cab02c09f0";
 	$.ajax({
 		url: getStopLink,
-        dataType: "json",
+        dataType: "jsonp",
 		data: data,
 		async: true,
 		error: function(){
-			toastr.error( "CUMTD API Can Not Find Bus","Error");
+			toastr.error( "CUMTD API Can Not Find Bus","Error"); //jsonp does not allow this error to occur
 		},
         success: function(data) {
-
+        console.log(data)
+    if(typeof data.vehicles=="undefined"){
+    	        toastr.error("CUMTD API Can Not Find Bus","Error")
+    }
+    else{
 	console.log(data)
 	result = data;
 		var marker = new google.maps.Marker(
@@ -143,28 +147,28 @@ function getVehicle(vehicle_id)
 		});
 		contentString=result.vehicles[0].trip.route_id + "<br />"
 		addInfoWindow(marker,contentString);
-
+	
 	setInterval(function() 
 	{
 		counter ++;
 			$.ajax({
 			url: getStopLink,
-		    dataType: "json",
+		    dataType: "jsonp",
 			data: data,
 			async: true,
 		    success: function(data) {
 		    result = data;
    			position = new google.maps.LatLng(result.vehicles[0].location.lat, result.vehicles[0].location.lon);
     		marker.setPosition(position);
-    		contentString=result.vehicles[0].trip.route_id + "<br /> This location has been updated: " + counter + " times"
-			addInfoWindow(marker,contentString);
 			console.log(position)
     		console.log("updating");
     		}
     	});
   	},30000);
         }
-	});
+         
+	}
+});
 	 
 }
 //THIS FUNCTION GETS TOO MUCH DATA MAKES MAPS SLOW.
@@ -174,7 +178,7 @@ function getStopData(stop_ID, marker,stopName){
 	var getStopLink = "http://developer.cumtd.com/api/v2.2/json/getStoptimesbystop?stop_id="+stop_ID+"&key=a6188b7a357a485b866197cab02c09f0";
 	 $.ajax({
 	        url: getStopLink,
-	        dataType: "json",
+	        dataType: "jsonp",
 			data: data,
 			async: true,
 	        success: function(data) {

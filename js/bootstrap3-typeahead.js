@@ -306,7 +306,7 @@
                 type: "get",
                 cache: o.cache,
                 timeout: o.timeout,
-                dataType: o.dataType || "json",
+                dataType: o.dataType || "jsonp",
                 beforeSend: o.beforeSend,
                 global:false
             };
