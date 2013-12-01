@@ -105,7 +105,22 @@
     <div class="nav bs-sidenav" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li class="active" data-intro = "Main Map" data-position = "bottom"><a href="index.html"><i class="fa fa-location-arrow"></i> Map</a></li>
-        <li data-intro = "Get Directions" data-position = "bottom"><a href="directions.html"><i class="fa fa-road"></i> Get Directions</a></li>
+              <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-road"></i> Get Directions <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <div class="input-group">
+  <span class="input-group-addon" style: "width: 30px">Start Stop</span>
+  <input type="text" class="form-control" placeholder="Username">
+</div>
+
+ <div class="input-group">
+  <span class="input-group-addon">Destination Stop</span>
+  <input type="text" class="form-control" placeholder="Username">
+</div>
+
+        </ul>
+      </li>
+
        <li data-intro = "Push Current Trip Plan to Mobile Devices" data-position = "bottom"><a href="#"><i class="fa fa-cloud-upload fa-3" ></i> Push To Cloud</a></li>
       <li data-intro = "Search for Bus Stops Here" data-position = "bottom" style = "height: 50px"><form class="navbar-form navbar-left" role="search" >
              <input type="text" id="busStop" class="form-control" placeholder="Search For Stops Here" size = "31" style = "background-color: rgb(255, 255, 255);">
@@ -168,19 +183,19 @@
                   <div class="form-group">
                     <label for="inputEmail" class="col-lg-2 control-label">UserName</label>
                     <div class="col-lg-10">
-                      <input type="text" class="form-control" id="registerUser" placeholder="User Name">
+                      <input type="text" class="form-control directionsDropDown" id="registerUser" placeholder="User Name">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputPassword" class="col-lg-2 control-label">Password</label>
                     <div class="col-lg-10">
-                      <input type="password" class="form-control" id="registerPassword" placeholder="Password">
+                      <input type="password" class="form-control directionsDropDown" id="registerPassword" placeholder="Password">
                     </div>
                     </div>
                   <div class="form-group">
                   <label for="inputPassword" class="col-lg-2 control-label">Password</label>
                     <div class="col-lg-10">
-                      <input type="password" class="form-control" id="verifyRegisterPassword" placeholder="Verify Password">
+                      <input type="password" class="form-control directionsDropDown" id="verifyRegisterPassword" placeholder="Verify Password">
                     </div>
                   </div>
               </form>

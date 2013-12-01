@@ -1,16 +1,13 @@
-
 //dead
 //http://developer.cumtd.com/api/v2.2/json/GetDeparturesByStop?stop_ID=1STARY&key=a6188b7a357a485b866197cab02c09f0
-			  
-
 var temp = [];
 var data = "";
-
 var markers = [];
 var iterator = 0;
 var html;
 $(document).ready(function()
 {
+	$('.dropdown-menu').bind('click', function (e) { e.stopPropagation() }) //Makes Dropdown Not Go Away When Clicked
 	google.maps.event.addDomListener(window, 'load', initialize);
 //Typeahead Support
 	$('#busStop').typeahead([
@@ -30,6 +27,7 @@ $(document).ready(function()
 parseLogIn();
 parseSignOut();
 passwordValidation();
+getPlannedTripsByStops("WALMART:2","6THGRG:4",1,"12/1/2013","13:53")
 })
 //Functions
 function getAllStops(map){
@@ -119,6 +117,24 @@ function getDeparturesByStop(stop_ID,marker,stopName)
 			});	
 	
 }
+function getPlannedTripsByStops(origin_stop_ID,destination_stop_id,marker,date,time)
+{
+//If direction = true, North, else = South.
+	var rowData = "";
+	var getStopLink = "http://developer.cumtd.com/api/v2.2/json/getPlannedTripsByStops?origin_stop_id="+origin_stop_ID+"&destination_stop_id="+ destination_stop_id+ "&date=" + date + "&time="  + time + "&key=a6188b7a357a485b866197cab02c09f0";
+	console.log(getStopLink)
+	 $.ajax({
+	        url: getStopLink,
+	        dataType: "jsonp",
+			data: data,
+			async: true,
+	        success: function(data) {
+	        	result = data;
+	        	console.log(result);
+			}
+			});	
+	
+}
 function getVehicle(vehicle_id)
 {
 	counter = 0;
@@ -172,7 +188,8 @@ function getVehicle(vehicle_id)
 });
 	 
 }
-//THIS FUNCTION GETS TOO MUCH DATA MAKES MAPS SLOW.
+//THIS FUNCTION GETS TOO MUCH DATA MAKES MAPS SLOW. 
+//THIS FUNCTION HAS BEEN REPLACED BY GET DEPARTURES BY STOP FOR SPEED.
 function getStopData(stop_ID, marker,stopName){
 	//If direction = true, North, else = South.
 	var rowData = "";
@@ -289,7 +306,6 @@ function passwordValidation(){
 			$('#verifyRegisterPassword').val("")
 			$('#registerPassword').val("")
 			setTimeout(function(){$('#registerUser').val("")},3000);
-
 		}
 		else{
 			if($('#registerUser').val()==""&&counter==0){
@@ -317,10 +333,7 @@ function passwordValidation(){
 					}
 				})
 		}
-
-	})
-
-		
-
-	
+	})	
 }
+
+
