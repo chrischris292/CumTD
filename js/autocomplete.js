@@ -8,6 +8,8 @@ var html;
 $(document).ready(function()
 {
 	$('.dropdown-menu').bind('click', function (e) { e.stopPropagation() }) //Makes Dropdown Not Go Away When Clicked
+	$('#date').datepicker();
+	$('#time').timepicker();
 	google.maps.event.addDomListener(window, 'load', initialize);
 //Typeahead Support
 	$('#busStop').typeahead([

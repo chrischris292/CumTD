@@ -24,9 +24,6 @@ bold{
     -ms-filter: blur(0px);
     filter: blur(0px);
 }
-.dropdown-menu{
-	min-width:400px;
-}
 
 div.input-group{
 	width:500px;

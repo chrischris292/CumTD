@@ -3,6 +3,8 @@
   <head>
       <link href="css/bootstrap.css" rel="stylesheet">
       <link href="css/font-awesome.css" rel="stylesheet">
+      <link href="css/introjs.css" rel="stylesheet">
+      <link href="css/datepicker.css" rel="stylesheet">
 	  <title>Champaign Urbana Transit Bus Application</title>
     <style type="text/css">
       html { height: 100% }
@@ -82,14 +84,13 @@
     </script>
 	<script src = "http://code.jquery.com/jquery-2.0.3.min.js"></script>
 	<script src = "js/bootstrap3-typeahead.js"></script>
-  <link href="css/introjs.css" rel="stylesheet">
   <script src="js/intro.js"></script>
   <script src="js/hogan.js"></script>
 	<script src = "js/autocomplete.js"></script>
   <script src = "js/toastr.min.js"></script>
-  <script src = "js/spin.min.js"></script>
   <script src = "js/bootstrap.min.js"></script>
   <script src="http://www.parsecdn.com/js/parse-1.2.13.min.js"></script>
+  <script src = "js/bootstrap-datepicker.js"></script>
   <link href="css/toastr.min.css" rel="stylesheet">
    <script type="text/javascript">
       
@@ -107,15 +108,23 @@
         <li class="active" data-intro = "Main Map" data-position = "bottom"><a href="index.html"><i class="fa fa-location-arrow"></i> Map</a></li>
               <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-road"></i> Get Directions <b class="caret"></b></a>
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu" style: "min-width:300px">
           <div class="input-group">
   <span class="input-group-addon" style: "width: 30px">Start Stop</span>
-  <input type="text" class="form-control" placeholder="Username">
+  <input type="text" class="form-control" placeholder="Start">
 </div>
 
  <div class="input-group">
   <span class="input-group-addon">Destination Stop</span>
-  <input type="text" class="form-control" placeholder="Username">
+  <input type="text" class="form-control" placeholder="Destination">
+</div>
+ <div class="input-group">
+  <span class="input-group-addon">Date</span>
+  <input type="text" class="form-control" placeholder="Date" id = "date">
+</div>
+ <div class="input-group">
+  <span class="input-group-addon">Time</span>
+  <input type="text" class="form-control" placeholder="Date" id = "time">
 </div>
 
         </ul>
