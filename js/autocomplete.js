@@ -6,6 +6,7 @@ var markers = [];
 var iterator = 0;
 var html;
 var stopHistory = [];
+var shapesBetweenStopsCounter = 0;
 $(document).ready(function()
 {
 	google.maps.event.addDomListener(window, 'load', initialize);
@@ -145,6 +146,7 @@ function getDeparturesByStop(stop_ID,marker,stopName)
 }
 function getPlannedTripsByStops(origin_stop_ID,destination_stop_id,marker,date,time)
 {
+	colors = ['#1ABC9C','#2ECC71','#3498DB','#9B59B6','#34495E','#16A085','#27AE60']
 //If direction = true, North, else = South.
 	var getStopLink = "http://developer.cumtd.com/api/v2.2/json/getPlannedTripsByStops?origin_stop_id="+origin_stop_ID+"&destination_stop_id="+ destination_stop_id+ "&date=" + date + "&time="  + time + "&key=a6188b7a357a485b866197cab02c09f0";
 	 $.ajax({
@@ -164,7 +166,7 @@ function getPlannedTripsByStops(origin_stop_ID,destination_stop_id,marker,date,t
 	        		var shapeID = result.itineraries[0].legs[i].services[x].trip.shape_id;
 	        		var beginStopID = result.itineraries[0].legs[i].services[x].begin.stop_id;
 	        		var EndStopID = result.itineraries[0].legs[i].services[x].end.stop_id;
-	        		getShapesBetweenStops(beginStopID,EndStopID,shapeID);
+	        		getShapesBetweenStops(beginStopID,EndStopID,shapeID,colors[shapesBetweenStopsCounter]);
 	        		}
 	        		}
 	        	}
@@ -172,11 +174,12 @@ function getPlannedTripsByStops(origin_stop_ID,destination_stop_id,marker,date,t
 	        	{
 	        		toastr.success("CUMTD API told me to tell you you need to walk. Have Fun")
 	        	}
-	        	else toastr.error(result.status.msg)
+	        	else toastr.error(result.status.msg);
+	        	shapesBetweenStopsCounter++;
 			}
 			});	
 	 //Function lies within function because to draw on map requires seperate AJAX call. 
-	 function getShapesBetweenStops(origin_stop_ID,destination_stop_id,trip_shape_id)
+	 function getShapesBetweenStops(origin_stop_ID,destination_stop_id,trip_shape_id, color)
 	 {
 	 	var lineLocations = [];
 	 	var getStopLink = "http://developer.cumtd.com/api/v2.2/json/GetShapeBetweenStops?begin_stop_id="+origin_stop_ID+"&end_stop_id="+ destination_stop_id+ "&shape_id=" + trip_shape_id + "&key=a6188b7a357a485b866197cab02c09f0";
@@ -194,12 +197,13 @@ function getPlannedTripsByStops(origin_stop_ID,destination_stop_id,marker,date,t
 					var drawDaLineBaby = new google.maps.Polyline({
 					path: lineLocations,
 					geodesic: true,
-					strokeColor: '#FF0000',
+					strokeColor: colors[shapesBetweenStopsCounter],
 					strokeOpacity: 1.0,
 					strokeWeight: 2
 					});
 					drawDaLineBaby.setMap(map);
 				}
+
 			}
 	 });
 	 }
