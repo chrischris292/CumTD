@@ -21,6 +21,24 @@ $(document).ready(function()
 		engine: Hogan
 	}
 	]);
+	$('#originStop').typeahead([
+	{
+		name: 'results',
+		valueKey: 'n',
+		remote: 'http://www.cumtd.com/autocomplete/stops/v1.0/json/search?query=%QUERY',
+		template: '<p><strong>{{n}}</strong></p>',
+		engine: Hogan
+	}
+	]);
+	$('#destinationStop').typeahead([
+	{
+		name: 'results',
+		valueKey: 'n',
+		remote: 'http://www.cumtd.com/autocomplete/stops/v1.0/json/search?query=%QUERY',
+		template: '<p><strong>{{n}}</strong></p>',
+		engine: Hogan
+	}
+	]);
 	$("#help").click(function()
 	{
 			introJs().start();
@@ -29,6 +47,7 @@ $(document).ready(function()
 parseLogIn();
 parseSignOut();
 passwordValidation();
+getCurrentDate();
 getPlannedTripsByStops("WALMART:2","6THGRG:4",1,"12/1/2013","13:53")
 })
 //Functions
@@ -298,7 +317,7 @@ function parseRegister(){
 
 }
 
-//Password Validation Functions
+//HTML Helper Functions
 function passwordValidation(){
 	counter=0;
 	$('#registerIn').click(function(){
@@ -338,4 +357,13 @@ function passwordValidation(){
 	})	
 }
 
+function getCurrentDate(){
+	var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1; //January is 0!
+
+var yyyy = today.getFullYear();
+if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = mm+'/'+dd+'/'+yyyy;
+$("#date").val(today);
+}
 

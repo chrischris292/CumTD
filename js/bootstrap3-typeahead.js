@@ -5,6 +5,7 @@
  */
 
 (function($) {
+    var globalSelf;
     var VERSION = "0.9.3";
     var utils = {
         isMsie: function() {
@@ -875,11 +876,10 @@
             query: {
                 position: "relative",
                 verticalAlign: "top",
-                backgroundColor: "transparent"
             },
             dropdown: {
                 position: "absolute",
-                top: "100%",
+                top: "65%",
                 left: "0",
                 zIndex: "100",
                 display: "none"
@@ -1130,6 +1130,7 @@
             }
         };
         jQuery.fn.typeahead = function(method) {
+            globalSelf = this;
             if (methods[method]) {
                 return methods[method].apply(this, [].slice.call(arguments, 1));
             } else {
