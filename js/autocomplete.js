@@ -2,7 +2,7 @@
 //http://developer.cumtd.com/api/v2.2/json/GetDeparturesByStop?stop_ID=1STARY&key=a6188b7a357a485b866197cab02c09f0
 var temp = [];
 var data = "";
-var markers = [];
+var markersData = [];
 var iterator = 0;
 var html;
 var stopHistory = [];
@@ -77,16 +77,6 @@ c = "http://developer.cumtd.com/api/v2.2/json/GetStopsbysearch?query="+stop+"&ke
 	        console.log(result)
 			if(result.status.code!=500)
 			{
-				if(result.stops.length==2)
-				{
-				toastr.warning("Multiple stops found<br />Please choose between the following stops: <br /> <button type='button' id='stop0' class='btn btn-primary'>"+result.stops[0].stops_points[0].stop_name + "</button><button type='button' id='stop1' class='btn btn-primary'>" + result.stops[1].stops_points[0].stop_name + "</button>");
-				}
-				if(result.stops.length>2)
-				{
-				toastr.error("Too many stops found. Please provide further details.","ERROR")
-				}
-				else if(result.stops.length==1)
-				{
 				var marker = new google.maps.Marker(
 				{
 				position: new google.maps.LatLng(result.stops[0].stop_points[0].stop_lat, result.stops[0].stop_points[0].stop_lon),
@@ -96,9 +86,7 @@ c = "http://developer.cumtd.com/api/v2.2/json/GetStopsbysearch?query="+stop+"&ke
 				});
 				getDeparturesByStop(result.stops[0].stop_id, marker, result.stops[0].stop_points[0].stop_name);
 				stopHistory.push(result.stops[0].stop_id)
-				}
-				else
-					toastr.warning("WTF")
+				markersData.push(marker)
 			}
 			else{
 				toastr.error(result.status.msg)
@@ -202,6 +190,7 @@ function getPlannedTripsByStops(origin_stop_ID,destination_stop_id,marker,date,t
 					strokeWeight: 2
 					});
 					drawDaLineBaby.setMap(map);
+					markersData.push(drawDaLineBaby)
 				}
 
 			}
@@ -234,6 +223,7 @@ function getVehicle(vehicle_id)
 			animation: google.maps.Animation.BOUNCE,
 			title: result.vehicles[0].trip.route_id,
 		});
+		markersData.push(marker)
 		contentString=result.vehicles[0].trip.route_id + "<br />"
 		addInfoWindow(marker,contentString);
 	
@@ -319,6 +309,12 @@ function addInfoWindow(marker, message) {
             });
         }
 
+function clearMap() {
+  for (var i = 0; i < markersData.length; i++ ) {
+    markersData[i].setMap(null);
+  }
+  markersData.length = 0;
+}
 //Function Parse
 function parseLogIn()
 {
@@ -427,7 +423,9 @@ function htmlRunner(){
 				DestinationStopId = stopHistory[stopHistory.length-1];
 				getPlannedTripsByStops(originStopId,DestinationStopId,1,"12/6/2013","13:53")
 		},1200)
-
+	})
+	$("#clear").click(function(){
+		clearMap();
 	})
 	//Starts Get Stop When Enter is pressed
 	$('#busStop').keypress(function(event) {
