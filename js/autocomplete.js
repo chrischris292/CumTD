@@ -5,11 +5,9 @@ var data = "";
 var markers = [];
 var iterator = 0;
 var html;
+var stopHistory = [];
 $(document).ready(function()
 {
-	$('.dropdown-menu').bind('click', function (e) { e.stopPropagation() }) //Makes Dropdown Not Go Away When Clicked
-	$('#date').datepicker();
-	$('#time').timepicker();
 	google.maps.event.addDomListener(window, 'load', initialize);
 //Typeahead Support
 	$('#busStop').typeahead([
@@ -48,7 +46,7 @@ parseLogIn();
 parseSignOut();
 passwordValidation();
 getCurrentDate();
-getPlannedTripsByStops("WALMART:2","6THGRG:4",1,"12/1/2013","13:53")
+htmlRunner()
 })
 //Functions
 function getAllStops(map){
@@ -74,30 +72,38 @@ c = "http://developer.cumtd.com/api/v2.2/json/GetStopsbysearch?query="+stop+"&ke
 			data: data,
 			async: true,
 	        success: function(data) {
-	        	result = data;
-	if(result.stops.length==2)
-	{
-		toastr.warning("Multiple stops found<br />Please choose between the following stops: <br /> <button type='button' id='stop0' class='btn btn-primary'>"+result.stops[0].stops_points[0].stop_name + "</button><button type='button' id='stop1' class='btn btn-primary'>" + result.stops[1].stops_points[0].stop_name + "</button>");
-	}
-	if(result.stops.length>2)
-	{
-		toastr.error("Too many stops found. Please provide further details.","ERROR")
-	}
-	else if(result.stops.length==1)
-	{
-		var marker = new google.maps.Marker(
+	        result = data;
+	        console.log(result)
+			if(result.status.code!=500)
+			{
+				if(result.stops.length==2)
 				{
-					position: new google.maps.LatLng (result.stops[0].stop_points[0].stop_lat, result.stops[0].stop_points[0].stop_lon),
-					map: map,
-					animation: google.maps.Animation.DROP,
-					title: result.stops[0].stop_points[0].stop_name,
+				toastr.warning("Multiple stops found<br />Please choose between the following stops: <br /> <button type='button' id='stop0' class='btn btn-primary'>"+result.stops[0].stops_points[0].stop_name + "</button><button type='button' id='stop1' class='btn btn-primary'>" + result.stops[1].stops_points[0].stop_name + "</button>");
+				}
+				if(result.stops.length>2)
+				{
+				toastr.error("Too many stops found. Please provide further details.","ERROR")
+				}
+				else if(result.stops.length==1)
+				{
+				var marker = new google.maps.Marker(
+				{
+				position: new google.maps.LatLng(result.stops[0].stop_points[0].stop_lat, result.stops[0].stop_points[0].stop_lon),
+				map: map,
+				animation: google.maps.Animation.DROP,
+				title: result.stops[0].stop_points[0].stop_name,
 				});
-			getDeparturesByStop(result.stops[0].stop_id, marker, result.stops[0].stop_points[0].stop_name);
-	}
-	return result;	
-	    	}
-		  });
-	
+				getDeparturesByStop(result.stops[0].stop_id, marker, result.stops[0].stop_points[0].stop_name);
+				stopHistory.push(result.stops[0].stop_id)
+				}
+				else
+					toastr.warning("WTF")
+			}
+			else{
+				toastr.error(result.status.msg)
+			}
+		}
+	});
 }
 function getDeparturesByStop(stop_ID,marker,stopName)
 {
@@ -111,7 +117,6 @@ function getDeparturesByStop(stop_ID,marker,stopName)
 			async: true,
 	        success: function(data) {
 	        	result = data;
-	        	console.log(result)
 	        	contentString = "<center><bold>"+stopName+"<bold></center><div><table class='table'> <thead> <tr> <th>Bus</th> <th>Arrival Time</th> <th>Direction</th> </tr> </thead> <tbody> ";
 	        	if(result.departures.length>0)
 	        	{
@@ -141,9 +146,7 @@ function getDeparturesByStop(stop_ID,marker,stopName)
 function getPlannedTripsByStops(origin_stop_ID,destination_stop_id,marker,date,time)
 {
 //If direction = true, North, else = South.
-	var rowData = "";
 	var getStopLink = "http://developer.cumtd.com/api/v2.2/json/getPlannedTripsByStops?origin_stop_id="+origin_stop_ID+"&destination_stop_id="+ destination_stop_id+ "&date=" + date + "&time="  + time + "&key=a6188b7a357a485b866197cab02c09f0";
-	console.log(getStopLink)
 	 $.ajax({
 	        url: getStopLink,
 	        dataType: "jsonp",
@@ -151,11 +154,57 @@ function getPlannedTripsByStops(origin_stop_ID,destination_stop_id,marker,date,t
 			async: true,
 	        success: function(data) {
 	        	result = data;
-	        	console.log(result);
+	        	if(result.status.msg=="ok"&&result.itineraries[0].legs[0].type!="Walk")
+	        	{
+	        		console.log(result);
+	        		for(i=0;i<result.itineraries[0].legs.length;i++)
+	        		{
+	        		for(x=0;x<result.itineraries[0].legs[i].services.length;x++)
+	        		{
+	        		var shapeID = result.itineraries[0].legs[i].services[x].trip.shape_id;
+	        		var beginStopID = result.itineraries[0].legs[i].services[x].begin.stop_id;
+	        		var EndStopID = result.itineraries[0].legs[i].services[x].end.stop_id;
+	        		getShapesBetweenStops(beginStopID,EndStopID,shapeID);
+	        		}
+	        		}
+	        	}
+	        	else if(result.itineraries[0].legs[0].type=="Walk")
+	        	{
+	        		toastr.success("CUMTD API told me to tell you you need to walk. Have Fun")
+	        	}
+	        	else toastr.error(result.status.msg)
 			}
 			});	
-	
+	 //Function lies within function because to draw on map requires seperate AJAX call. 
+	 function getShapesBetweenStops(origin_stop_ID,destination_stop_id,trip_shape_id)
+	 {
+	 	var lineLocations = [];
+	 	var getStopLink = "http://developer.cumtd.com/api/v2.2/json/GetShapeBetweenStops?begin_stop_id="+origin_stop_ID+"&end_stop_id="+ destination_stop_id+ "&shape_id=" + trip_shape_id + "&key=a6188b7a357a485b866197cab02c09f0";
+	 	 $.ajax({
+	        url: getStopLink,
+	        dataType: "jsonp",
+			data: data,
+			async: true,
+			success: function(data){
+				console.log("SUCCESS BITCH");
+				for(i=0;i<data.shapes.length;i++)
+				{
+					var location = new google.maps.LatLng(data.shapes[i].shape_pt_lat,data.shapes[i].shape_pt_lon)
+					lineLocations.push(location)
+					var drawDaLineBaby = new google.maps.Polyline({
+					path: lineLocations,
+					geodesic: true,
+					strokeColor: '#FF0000',
+					strokeOpacity: 1.0,
+					strokeWeight: 2
+					});
+					drawDaLineBaby.setMap(map);
+				}
+			}
+	 });
+	 }
 }
+
 function getVehicle(vehicle_id)
 {
 	counter = 0;
@@ -169,12 +218,10 @@ function getVehicle(vehicle_id)
 			toastr.error( "CUMTD API Can Not Find Bus","Error"); //jsonp does not allow this error to occur
 		},
         success: function(data) {
-        console.log(data)
     if(typeof data.vehicles=="undefined"){
     	        toastr.error("CUMTD API Can Not Find Bus","Error")
     }
     else{
-	console.log(data)
 	result = data;
 		var marker = new google.maps.Marker(
 		{
@@ -198,8 +245,6 @@ function getVehicle(vehicle_id)
 		    result = data;
    			position = new google.maps.LatLng(result.vehicles[0].location.lat, result.vehicles[0].location.lon);
     		marker.setPosition(position);
-			console.log(position)
-    		console.log("updating");
     		}
     	});
   	},30000);
@@ -257,11 +302,6 @@ function initialize() {
     center: champaign
   };
   map = new google.maps.Map(document.getElementById('map-canvas'),mapOptions);
-	$('#busStop').keypress(function(event) {
-        if (event.keyCode == 13) {
-            getStop(this.value);
-        }
-    });
 }
 function addInfoWindow(marker, message) {
             var info = message;
@@ -366,4 +406,29 @@ var yyyy = today.getFullYear();
 if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = mm+'/'+dd+'/'+yyyy;
 $("#date").val(today);
 }
+function htmlRunner(){
+		$('.dropdown-menu').bind('click', function (e) { e.stopPropagation() }) //Makes Dropdown Not Go Away When Clicked
 
+	$("#closeDropDown").click(function(){
+		$('.dropdown-toggle').dropdown('toggle')
+	})
+	$('#date').datepicker();
+	$('#time').timepicker();
+	$("#submitDropDown").click(function(){
+		$('.dropdown-toggle').dropdown('toggle')
+		getStop($("#originStop").val());
+		getStop($("#destinationStop").val());
+		setTimeout(function(){
+				originStopId = stopHistory[stopHistory.length-2];
+				DestinationStopId = stopHistory[stopHistory.length-1];
+				getPlannedTripsByStops(originStopId,DestinationStopId,1,"12/6/2013","13:53")
+		},1200)
+
+	})
+	//Starts Get Stop When Enter is pressed
+	$('#busStop').keypress(function(event) {
+        if (event.keyCode == 13) {
+            getStop(this.value);
+        }
+    });
+}

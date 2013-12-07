@@ -35,7 +35,7 @@ input.form-control.directionsDropDown{
 span.input-group-addon{
 	width:25%;
 }
-.form-control{
+.dropdownForm{
 	width: 396px;
 height: 35px;
 padding: 8px 12px;
@@ -48,3 +48,32 @@ border: 1px solid #ccc;
 outline: none;
 background-color: rgb(255, 255, 255);
 }
+.dropDownButton{
+width:50%;
+height:36px;
+border-radius: 3px;
+border-bottom-left-radius: 0;
+border-top-left-radius: 0;
+display: inline-block;
+padding: 6px 12px;
+margin-bottom: 0;
+font-size: 14px;
+font-weight: normal;
+line-height: 1.428571429;
+text-align: center;
+white-space: nowrap;
+vertical-align: middle;
+cursor: pointer;
+background-image: none;
+border: 1px solid transparent;
+border-radius: 0px;
+-webkit-user-select: none;
+color: #ffffff;
+}
+.button-cancel{
+background-color: #d3d3d3;
+border-color: #bbbbbb;
+}
+.button-submit{
+background-color: #006d91;
+border-color: #047A9F;}
